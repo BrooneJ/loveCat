@@ -1,16 +1,20 @@
-console.log("app is running!");
+import SearchingSection from './components/SearchingSection.js';
 
-class App {
-    $target = null;
-    data = [];
+import { getItem, setItem } from "./utils/sessionStorage.js";
 
+export default class App {
     constructor($target) {
-        this.$target = $target;
+        const keywords = getItem('keywords');
+        const data = getItem('data');
 
-        this.searchInput = new SearchInput({
+        const SearchingSection = new SearchingSection({
             $target,
+            keywords,
             onSearch: keyword => {
                 api.fetchCats(keyword).then(({ data }) => this.setState(data));
+            },
+            onRandom: async () => {
+
             }
         });
 
