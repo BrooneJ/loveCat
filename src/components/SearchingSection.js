@@ -2,7 +2,7 @@ import { setItem } from '../utils/sessionStorage.js';
 
 export default class SearchBar {
     constructor({ $target, keywords, onSearch, onRandom }) {
-        this.recent = keywords;
+        this.recent = keywords; // 객체
         this.onSearch = onSearch;
         this.onRandom = onRandom;
         this.section = document.createElement('section');
@@ -15,14 +15,14 @@ export default class SearchBar {
         this.focusOnSearchBox();
     }
 
-    forcusOnSearchBox() {
+    forcusOnSearchBox() { // 현재 페이지에 엑세스 할 때 검색창에 포커스가 가도록
         const searchBox = document.querySelector('search-box');
         searchBox.focus();
     }
 
-    addRecentKeyword(keyword) {
-        if (this.recent.includes(keyword)) return;
-        if (this.recent.length == 5) this.recent.shift();
+    addRecentKeyword(keyword) { // 최근 검색한 5개의 검색어 저장
+        if (this.recent.includes(keyword)) return; // 이미 검색한 5개의 검색어 일 경우
+        if (this.recent.length == 5) this.recent.shift(); // 현재 5개가 저장되어 있을 경우 젤 오래된 거 삭제
 
         this.recent.push(keyword);
         setItem('keyword', this.recent);
@@ -31,22 +31,22 @@ export default class SearchBar {
     }
 
     searchByKeyword(keyword) {
-        if (keyword.length == 0) return;
+        if (keyword.length == 0) return; // 아무것도 입력하지 않았을 경우
 
-        this.addRecentKeyword(keyword);
-        this.onSearch(keyword);
+        this.addRecentKeyword(keyword); // 입력한 검색어를 5개 검색어에 등록
+        this.onSearch(keyword); // 검색
     }
 
-    deletKeyword() {
+    deletKeyword() { // 검색창의 input을 클릭시 기존 단어가 삭제 되도록
         const searchBox = document.querySelector('.search-box');
         searchBox.value = '';
     }
 
-    render() {
-        this.section.innerHTML = '';
+    render() { // 화면을 랜더링 html에서가 아니라 js로 만듦
+        this.section.innerHTML = ''; // section 태그를 초기화
 
-        const rnadomBtn = document.createElement('span');
-        rnadomBtn.className = 'random-btn';
+        const randomBtn = document.createElement('span');
+        randomBtn.className = 'random-btn';
         RandomSource.innerText = '🐱';
 
         const wrapper = document.createElement('div');
@@ -69,10 +69,10 @@ export default class SearchBar {
             recentKeywords.appendChild(link);
         });
 
-        rnadomBtn.addEventListener('click', this.onRandom);
+        randomBtn.addEventListener('click', this.onRandom);
         searchBox.addEventListener('focus', this.deletKeyword);
         searchBox.addEventListener('keyup', event => {
-            if (event.keyCode == 13) {
+            if (event.keyCode == 13) { // enter 버튼을 놓을 때 이벤트 발생
                 this.searchByKeyword(searchBox.value);
             }
         });
