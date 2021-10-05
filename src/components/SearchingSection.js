@@ -15,8 +15,8 @@ export default class SearchBar {
         this.focusOnSearchBox();
     }
 
-    forcusOnSearchBox() { // 현재 페이지에 엑세스 할 때 검색창에 포커스가 가도록
-        const searchBox = document.querySelector('search-box');
+    focusOnSearchBox() { // 현재 페이지에 엑세스 할 때 검색창에 포커스가 가도록
+        const searchBox = document.querySelector('.search-box');
         searchBox.focus();
     }
 
@@ -47,7 +47,7 @@ export default class SearchBar {
 
         const randomBtn = document.createElement('span');
         randomBtn.className = 'random-btn';
-        RandomSource.innerText = '🐱';
+        randomBtn.innerText = '🐱';
 
         const wrapper = document.createElement('div');
         wrapper.className = 'search-box-wrapper';

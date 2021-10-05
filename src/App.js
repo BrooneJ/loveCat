@@ -1,5 +1,8 @@
 import SearchingSection from './components/SearchingSection.js';
+import Loading from './components/Loading.js';
+import Error from './components/Error.js';
 
+import { api } from "./api/theCatAPI.js";
 import { getItem, setItem } from "./utils/sessionStorage.js";
 
 export default class App {
@@ -7,34 +10,47 @@ export default class App {
         const keywords = getItem('keywords');
         const data = getItem('data');
 
-        const SearchingSection = new SearchingSection({
+        const searchingSection = new SearchingSection({
             $target,
             keywords,
-            onSearch: keyword => {
-                api.fetchCats(keyword).then(({ data }) => this.setState(data));
+            onSearch: async keyword => {
+                loading.toggleSpinner();
+
+                const response = await api.fetchCats(keyword);
+                if (!response.isError) {
+                    console.log(response.data);
+                    setItem('data', response.data);
+
+                    loading.toggleSpinner();
+                } else {
+                    error.setState(response.data);
+                }
             },
             onRandom: async () => {
+                loading.toggleSpinner();
+
+                const response = await api.fetchRandomCats();
+                if (!response.isError) {
+                    console.log(response);
+                    setItem('data', response.data);
+                    loading.toggleSpinner();
+                } else {
+                    error.setState(response.data);
+                }
 
             }
         });
 
-        this.searchResult = new SearchResult({
-            $target,
-            initialData: this.data,
-            onClick: image => {
-                this.imageInfo.setState({
-                    visible: true,
-                    image
-                });
-            }
+
+
+
+
+        const loading = new Loading({
+            $target
         });
 
-        this.imageInfo = new ImageInfo({
-            $target,
-            data: {
-                visible: false,
-                image: null
-            }
+        const error = new Error({
+            $target
         });
     }
 
