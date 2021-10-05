@@ -12,10 +12,11 @@ const request = async url => {
             throw errorData;
         }
     } catch (e) {
-        throw {
-            message: e.message,
-            status: e.status
-        };
+        console.log(e)
+        // throw {
+        //     message: e.message,
+        //     status: e.status
+        // };
     }
 }
 
@@ -23,25 +24,19 @@ const api = {
     fetchCats: async keyword => {
         try {
             const catLists = await request(`${API_ENDPOINT}/api/cats/search?q=${keyword}`);
+            const requests = catLists.data.map(async catList => {
+                return await request(`${API_ENDPOINT}/api/cats/${catList.id}`);
+            });
+
+            const responses = await Promise.all(requests);
+
+            console.log('responses:', responses);
+            const filterObj = responses.filter(el => el !== undefined);
+            const result = Array.prototype.concat.apply([], filterObj);
 
             return {
                 isError: false,
-                data: catLists
-            };
-        } catch (e) {
-            return {
-                isError: true,
-                data: e
-            }
-        }
-    },
-
-    catId: async id => {
-        try {
-            const catPic = await request(`${API_ENDPOINT}/api/cats/${id}`);
-            return {
-                isError: false,
-                data: catPic
+                data: result
             };
         } catch (e) {
             return {
@@ -53,7 +48,16 @@ const api = {
 
     fetchRandomCats: async () => {
         try {
-            const result = await request(`${API_ENDPOINT}/api/cats/random50`);
+            const randoms = await request(`${API_ENDPOINT}/api/cats/random50`);
+            const requests = randoms.data.map(async catList => {
+                return await request(`${API_ENDPOINT}/api/cats/${catList.id}`);
+            });
+
+            const responses = await Promise.all(requests);
+
+            console.log('responses:', responses);
+            const filterObj = responses.filter(el => el !== undefined);
+            const result = Array.prototype.concat.apply([], filterObj);
             return {
                 isError: false,
                 data: result

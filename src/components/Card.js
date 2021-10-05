@@ -1,23 +1,23 @@
 export default class Card {
     constructor({ $target, data }) {
-        this.data = data;
+        this.data = data.data;
         this.card = document.createElement('article');
         this.card.className = 'cat-card';
         this.card.dataset.id = data.id;
 
-        $target.appendChild(this.data);
+        $target.appendChild(this.card);
 
         this.render();
     }
 
     render() {
         const url = this.data.url;
-        const { name, origin } = this.data.length > 0 ? this.data[0] : { name: '정보없음', origin: '정보없음' };
+        const { name, origin } = this.data;
 
         const cardImage = document.createElement('img');
         cardImage.className = 'card-image';
         cardImage.classList.add('lazy');
-        cardImage.dataset.src = url;
+        cardImage.src = url;
 
         const cardInfo = document.createElement('article');
         cardInfo.className = 'card-info';
