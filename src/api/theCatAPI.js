@@ -25,14 +25,11 @@ const api = {
         */
         try {
             const breeds = await request(`${API_ENDPOINT}/breeds/search?q=${keyword}`);
-            console.log(breeds);
             const requests = breeds.map(async breed => {
                 return await request(`${API_ENDPOINT}/images/search?limit=20&breed_ids=${breed.id}`);
             });
-            console.log(requests);
             const responses = await Promise.all(requests);
             const result = Array.prototype.concat.apply([], responses);
-            console.log(result)
             return {
                 isError: false,
                 data: result
