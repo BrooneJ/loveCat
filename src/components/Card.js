@@ -6,7 +6,7 @@ export default class Card {
         this.card.dataset.id = data.id;
 
         $target.appendChild(this.card);
-        // console.log(this.data);
+
         this.render();
     }
 

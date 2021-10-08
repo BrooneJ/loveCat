@@ -1,7 +1,7 @@
 export default class DrtailModal {
     constructor({ $target }) {
-        this.isVisible = false;
-        this.data = null;
+        this.isVisible = false; // 처음에는 false로 시작함
+        this.data = null; // this.data를 초기화
         this.modalWrapper = document.createElement('div');
         this.modalWrapper.className = 'modal-wrapper';
         this.modalWrapper.classList.add('hidden');
@@ -18,10 +18,10 @@ export default class DrtailModal {
         modal.classList.toggle('hidden');
     }
 
-    setState(data) {
-        this.toggleModal();
+    setState(data) { // setState에 data를 넣으면서 시작함
+        this.toggleModal(); // false -> true로 바꾸면서 보이게 됨
         this.data = data;
-        this.render();
+        this.render(); // rendering 시작
     }
 
     onClose() {
