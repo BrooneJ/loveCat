@@ -1,4 +1,5 @@
 import Card from "./Card.js";
+import { lazyLoad } from "../utils/lazyLoad.js";
 
 export default class ResultsSection {
     // constructor({$target, data, onClick, onScroll}){
@@ -12,14 +13,14 @@ export default class ResultsSection {
         $target.appendChild(this.section);
 
         this.render();
-        // lazy
+        lazyLoad();
         // scroll
     }
 
     setState(data) { // onSearch, onRandom 함수를 호출하면 실행
         this.data = data;
         this.render();
-        // lazy
+        lazyLoad();
     }
 
     findCatById(id) {
