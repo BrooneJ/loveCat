@@ -1,4 +1,6 @@
 import SearchingSection from './components/SearchingSection.js';
+import ResultsSection from './components/ResultsSection.js';
+import DetailModal from './components/DetailModal.js';
 import Loading from './components/Loading.js';
 import Error from './components/Error.js';
 
@@ -18,9 +20,8 @@ export default class App {
 
                 const response = await api.fetchCats(keyword);
                 if (!response.isError) {
-                    console.log(response.data);
                     setItem('data', response.data);
-
+                    resultsSection.setState(response.data);
                     loading.toggleSpinner();
                 } else {
                     error.setState(response.data);
@@ -31,19 +32,42 @@ export default class App {
 
                 const response = await api.fetchRandomCats();
                 if (!response.isError) {
-                    console.log(response);
                     setItem('data', response.data);
+                    resultsSection.setState(response.data);
                     loading.toggleSpinner();
                 } else {
                     error.setState(response.data);
                 }
+            }
+        });
 
+        const resultsSection = new ResultsSection({
+            $target,
+            data,
+            onClick: data => {
+                detailModal.setState(data);
+            },
+            onScroll: async () => {
+                loading.toggleSpinner();
+
+                const response = await api.fetchRandomCats();
+                if (!response.isError) {
+                    const beforeData = getItem('data');
+                    const nextData = beforeData.concat(response.data);
+
+                    setItem('data', nextData);
+                    resultsSection.setState(nextData);
+                    loading.toggleSpinner();
+                } else {
+                    error.setState(response.data);
+                }
             }
         });
 
 
-
-
+        const detailModal = new DetailModal({
+            $target
+        })
 
         const loading = new Loading({
             $target
@@ -52,11 +76,5 @@ export default class App {
         const error = new Error({
             $target
         });
-    }
-
-    setState(nextData) {
-        console.log(this);
-        this.data = nextData;
-        this.searchResult.setState(nextData);
     }
 }

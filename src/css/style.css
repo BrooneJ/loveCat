@@ -5,91 +5,214 @@
     font-style: normal;
   }
   
-  html {
-    box-sizing: border-box;
+  :root {
+    --color-mode: 'light';
+    --color-dark: black;
+    --color-light: white;
+    --background: white;
+    --text-color: black;
   }
   
-  body * {
-    font-family: Goyang;
+  body {
+    background: var(--background);
+    color: var(--text-color);
+    transition: background 500ms ease-in-out, color 200ms ease;
   }
   
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
-  
-  #App {
-    margin: 1.5em auto;
-    max-width: 1200px;
-    column-gap: 1.5em;
-  }
-  
-  .SearchResult {
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(250px, 1fr));
-    grid-gap: 10px;
-  }
-  
-  .SearchResult img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .SearchResult .item {
-    background-color: #eee;
-    display: inline-block;
-    margin: 0 0 1em;
-    width: 100%;
-  }
-  
-  .SearchInput {
-    width: 100%;
-    font-size: 40px;
-    padding: 10px 15px;
-  }
-  
-  .ImageInfo {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .ImageInfo .title {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .ImageInfo .title,
-  .ImageInfo .description {
-    padding: 5px;
-  }
-  
-  .ImageInfo .content-wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 5px;
-  }
-  
-  .ImageInfo .content-wrapper img {
-    width: 100%;
-  }
-  
-  /* dark mode 처리
   @media (prefers-color-scheme: dark) {
-    body {
-      background-color: #000;
-      color: white;
+    :root {
+      --color-mode: 'dark';
+    }
+    
+    :root:not([data-user-color-scheme]) {
+      --background: var(--color-dark);
+      --text-color: var(--color-light);
     }
   }
-  *?
   
+  [data-user-color-scheme="dark"] {
+    --background: var(--color-dark);
+    --text-color: var(--color-light);
+  }
+
+.searching-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.search-box {
+    font-size: 20px;
+}
+
+.recent-keywords {
+    margin-top: 10px;
+}
+
+.keyword {
+    background-color: rgb(255, 127, 0);
+    color: white;
+    border-radius: 11px;
+    
+    padding: 5px;
+    margin-right: 8px;
+}
+
+.random-btn {
+    font-size: 50px;
+    margin-right: 10px;
+}
+
+.results-section {
+    margin-top: 3%;
+}
+
+.notice-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.notice {
+    margin-top: 8%;
+    text-align: center;
+}
+
+.notice-image {
+    height: 300px;
+    width: 350px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.cat-card {
+    display: flex;
+    flex-direction: column;
+
+    /* TODO: 카드 정렬하기 */
+    margin-left: calc( (100% - (20% * 4)) / 4);
+    
+    width: 250px;
+    height: 350px;
+}
+
+.card-image {
+    height: 70%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.5);
+}
+
+.modal-contents {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    
+    height: 70%;
+    width: 30%;
+    padding: 10px;
+    background-color: var(--background);
+    color: var(--text-color);
+
+    /* TODO: box-shadow */
+}
+
+.modal-image {
+    height: 60%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 30px;
+}
+
+.modal-title {
+    margin: 0;
+}
+
+.spinner-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(255, 255, 255, 0.7);
+}
+
+.spinner-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 49%;
+}
+
+.error-section {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.error-image {
+    margin-top: 8%;
+    border-radius: 10%;
+}
+
+.status-code {
+    margin: 0;
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+.error-message {
+    margin-top: -15px;
+    font-size: 20px;
+}
+
+.return-btn {
+    margin-top: 15px;
+}
+
+.darkmode-btn {

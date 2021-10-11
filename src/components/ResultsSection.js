@@ -1,12 +1,12 @@
 import Card from "./Card.js";
 import { lazyLoad } from "../utils/lazyLoad.js";
+import { scrollFetch } from "../utils/scrollFetch.js";
 
 export default class ResultsSection {
-    // constructor({$target, data, onClick, onScroll}){
-    constructor({ $target, data, onClick }) {
+    constructor({ $target, data, onClick, onScroll }) {
         this.data = data;
         this.onClick = onClick;
-        // this.onScroll = onScroll;
+        this.onScroll = onScroll;
         this.section = document.createElement('section');
         this.section.className = 'results-section';
 
@@ -14,7 +14,7 @@ export default class ResultsSection {
 
         this.render();
         lazyLoad();
-        // scroll
+        scrollFetch(this.onScroll);
     }
 
     setState(data) { // onSearch, onRandom 함수를 호출하면 실행
