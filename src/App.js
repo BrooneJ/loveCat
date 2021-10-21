@@ -9,7 +9,7 @@ import { getItem, setItem } from "./utils/sessionStorage.js";
 
 export default class App {
     constructor($target) {
-        const keywords = getItem('keywords');
+        const keywords = getItem('keyword');
         const data = getItem('data');
 
         const searchingSection = new SearchingSection({
